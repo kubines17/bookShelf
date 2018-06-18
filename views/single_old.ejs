@@ -36,29 +36,21 @@
 		<!--end of container-->
 	</section>
 	<!--end bar-->
-	<form action="/add">
-   <input type="submit" value="Add new book">
-     </form>
 	<div class="main-container">
-		<section class="space--sm">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="masonry">
-							<hr>
-							<div class="row">
-								<div id="shelfContent" class="masonry__container">
-									<!-- Single post -->
-									
-									<!-- End post -->
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		<section>
+	        <div class="container">
+	            <div class="row">
+	            	<div id="shelfContent" class="masonry__container">
+	                
+	                </div>
+	            </div>
+	            <!--end of row-->
+	        </div>
+	        <!--end of container-->
+	    </section>
 		<p id="host" hidden></p>
+
+
 			<footer class="footer-3 text-center-xs space--xs ">
 				<div class="container">
 					<div class="row">
@@ -98,63 +90,45 @@
 				<!--end of container-->
 			</footer>
 		</div>
+		</div>
 		<!--<div class="loader"></div>-->
 		<a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
 			<i class="stack-interface stack-up-open-big"></i>
 		</a>
-		
-		<script src="../js/jquery-3.1.1.min.js"></script>
+		<script src="../js/jquery-3.1.1.min.js"> </script>
 
 		<script type="text/javascript">
-			var book = `<div id="" class="book masonry__item col-md-4 col-sm-6" data-masonry-filter="Marketing">
-					<article class="feature feature-1">
-						<a href="/single/%link%" class="block">
-							<img alt="Image" src="./img/%image%" />
-						</a>
-						<div class="feature__body boxed boxed--border">
-							<h5>%title%</h5>
-							<a href="/single/%link%"> Read More </a>
-							<br>
-							<a href="/book/remove/%link%"> Remove book </a>
-						</div>
-					</article>
-				</div>`
+			console.log("123456111111111111111111111111111111111111111111111111")
+			var book = `<div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+	                    <article>
+	                    <div class="article__title text-center">
+	                    </div>
+	                	<h1 id="title" class="h2"> %title% </h1>
+	                            <span id="author"> %author% </span>
+	                        </div>
+	                        <div class="article__body">
+	                            <img id="image" alt="Image" src="../img/%image%" />
+	                            <p id="description"> %description% </p>
+	                            </div>
+	                    </article>`
 
-			$.get("/get/all", function(data, status){
-		        for(var elem of data.posts) {
-		        	currentBook = book
+	        $.get("/single/%id%", function(data, status){
+	        	var urlid = '%id%'
+	        	for(var elem of data.posts) {
+	        		if (urlid == elem.id) {
+		           	currentBook = book
 		        	currentBook = currentBook.replace('%title%', elem.title)
 		        	currentBook = currentBook.replace('%image%', elem.image)
-		        	currentBook = currentBook.replace(/%link%/g, elem.id)
+		        	currentBook = currentBook.replace('%author%', elem.author)
+		        	currentBook = currentBook.replace('%author%', elem.description)
+		        	}	        	
 		        	
-		        	$( "#shelfContent" ).append(currentBook)
 		        }
+		        $( "#shelfContent" ).append(currentBook)
 		    });
-
-		    $( "#search" ).change(function(){
-		    	console.log('yes')
-		    	for(var i = 0; i < 10; i++){
-		    		$( ".book" ).remove();
-			    	var value = document.getElementById("search").value;
-			    	console.log(value)
-
-			    	$.get("/search/" + value, function(data, status){
-			        for(var elem of data.posts) {
-			        	currentBook = book
-			        	currentBook = currentBook.replace('%title%', elem.title)
-			        	currentBook = currentBook.replace('%image%', elem.image)
-			        	currentBook = currentBook.replace(/%link%/g, elem.id)
-			        	
-			        	$( "#shelfContent" ).append(currentBook)
-		        		}
-		    		});
-		    	}
-			})
-			
-			
-
 		</script>
 
+		
 		<script src="../js/flickity.min.js"></script>
 		<script src="../js/easypiechart.min.js"></script>
 		<script src="../js/parallax.js"></script>

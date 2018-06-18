@@ -36,29 +36,32 @@
 		<!--end of container-->
 	</section>
 	<!--end bar-->
-	<form action="/add">
-   <input type="submit" value="Add new book">
-     </form>
 	<div class="main-container">
-		<section class="space--sm">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="masonry">
-							<hr>
-							<div class="row">
-								<div id="shelfContent" class="masonry__container">
-									<!-- Single post -->
-									
-									<!-- End post -->
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		<section>
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+	                    <article>
+	                        <div class="article__title text-center">
+	                            <h1 id="title" class="h2"> Some title </h1>
+	                            <span id="author"> Text </span>
+	                        </div>
+	                        <!--end article title-->
+	                        <div class="article__body">
+	                            <img id="image" alt="Image" src="Some images" />
+	                            <p id="description"> Some text </p>
+	                        </div>
+	                    </article>
+	                    <!--end item-->
+	                </div>
+	            </div>
+	            <!--end of row-->
+	        </div>
+	        <!--end of container-->
+	    </section>
 		<p id="host" hidden></p>
+
+
 			<footer class="footer-3 text-center-xs space--xs ">
 				<div class="container">
 					<div class="row">
@@ -102,59 +105,18 @@
 		<a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
 			<i class="stack-interface stack-up-open-big"></i>
 		</a>
-		
 		<script src="../js/jquery-3.1.1.min.js"></script>
-
 		<script type="text/javascript">
-			var book = `<div id="" class="book masonry__item col-md-4 col-sm-6" data-masonry-filter="Marketing">
-					<article class="feature feature-1">
-						<a href="/single/%link%" class="block">
-							<img alt="Image" src="./img/%image%" />
-						</a>
-						<div class="feature__body boxed boxed--border">
-							<h5>%title%</h5>
-							<a href="/single/%link%"> Read More </a>
-							<br>
-							<a href="/book/remove/%link%"> Remove book </a>
-						</div>
-					</article>
-				</div>`
-
-			$.get("/get/all", function(data, status){
-		        for(var elem of data.posts) {
-		        	currentBook = book
-		        	currentBook = currentBook.replace('%title%', elem.title)
-		        	currentBook = currentBook.replace('%image%', elem.image)
-		        	currentBook = currentBook.replace(/%link%/g, elem.id)
-		        	
-		        	$( "#shelfContent" ).append(currentBook)
-		        }
-		    });
-
-		    $( "#search" ).change(function(){
-		    	console.log('yes')
-		    	for(var i = 0; i < 10; i++){
-		    		$( ".book" ).remove();
-			    	var value = document.getElementById("search").value;
-			    	console.log(value)
-
-			    	$.get("/search/" + value, function(data, status){
-			        for(var elem of data.posts) {
-			        	currentBook = book
-			        	currentBook = currentBook.replace('%title%', elem.title)
-			        	currentBook = currentBook.replace('%image%', elem.image)
-			        	currentBook = currentBook.replace(/%link%/g, elem.id)
-			        	
-			        	$( "#shelfContent" ).append(currentBook)
-		        		}
-		    		});
-		    	}
+			var url = document.URL
+			var elems = url.split('/')
+			var id = elems[elems.length -1]
+				$.get("/get/book/" + id, function(data, status){
+				document.getElementById("title").innerHTML = data.title;
+				document.getElementById("author").innerHTML = data.author;
+				document.getElementById("description").innerHTML = data.description;
+				document.getElementById("image").src = '../img/' + data.image;				
 			})
-			
-			
-
 		</script>
-
 		<script src="../js/flickity.min.js"></script>
 		<script src="../js/easypiechart.min.js"></script>
 		<script src="../js/parallax.js"></script>
