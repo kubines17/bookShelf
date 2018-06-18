@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs')
+var multer = require('multer');
+var upload = multer({dest: './public/img'});
 
 
 module.exports = function(app, db) {
@@ -65,7 +67,7 @@ module.exports = function(app, db) {
 		res.render('add',{})
 		});
 
-	router.post('/add', function(req, res) {
+	router.post('/add', upload.any(), function(req, res, next) {
 		fs.readFile('./db.json', function(err, data) {
 			if (err) {
 				res.send({
@@ -73,6 +75,8 @@ module.exports = function(app, db) {
 					status: false
 				})
 			} else {
+
+				var fileImg = req.files[0].filename
 				var newJson = {
 					posts: []
 				}
@@ -99,11 +103,11 @@ module.exports = function(app, db) {
 					"id": id,
 					"title": req.body.title,
 					"author": req.body.author,
+					"image": fileImg,
 					"description": req.body.description
 				})
 				fs.writeFile('./db.json', JSON.stringify(newJson), function(err){
-					//res.redirect('/')
-				if(err) {
+					if(err) {
 						res.send({
 							message: 'Can note add book',
 							status: false
@@ -121,11 +125,3 @@ module.exports = function(app, db) {
 
 	app.use('/book', router);
 };
-/*
-var multer = require('multer');
-var upload = multer({dest: './public/img'});
-
-router.post('/’',upload.any(), function(req, res, next) {}
-req.files[0].filename
-
-*/

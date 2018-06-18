@@ -6,7 +6,7 @@
 <body>
 <fieldset>
 	<legend> Add new book </legend>
-		<form action="/book/add" method="POST">
+		<form action="/book/add" method="POST" enctype="multipart/form-data">
 				
 			Input title:
 			<input type="text" name="title" size="100">
@@ -23,9 +23,13 @@
 			
 			<br>
 			<br>
+			Add image:
+			<input type="file" name="Image" accept="image/*">
+			
+			<br>
+			<br>
 			<input type="submit" value="Submit">
 	</form>
 </fieldset>
 </body>
 </html>
-
